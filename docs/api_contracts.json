@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FleetTrackPro Courier API Contract",
+  "description": "Dokumentasi kontrak pertukaran data antara aplikasi mobile FleetTrackPro dan backend logistik pusat Cirebon",
+  "version": "1.0.0",
+  "endpoints": [
+    {
+      "method": "GET",
+      "path": "/api/v1/courier/manifest/today",
+      "summary": "Mendapatkan daftar manifest tugas pengiriman paket harian kurir",
+      "request": {
+        "headers": {
+          "Authorization": "Bearer <courier_jwt_token>"
+        }
+      },
+      "response": {
+        "status": 200,
+        "contentType": "application/json",
+        "example": [
+          {
+            "order_id": "ORD-2026-8801",
+            "tracking_number": "EXP-90021-JKT",
+            "recipient_name": "Ibu Ratna Dewi",
+            "recipient_phone": "081234567890",
+            "destination_address": "Jl. Melati Raya No. 45, Harjamukti, Cirebon",
+            "cod_amount": 125000.0,
+            "status": "PENDING"
+          },
+          {
+            "order_id": "ORD-2026-8802",
+            "tracking_number": "EXP-90022-BDG",
+            "recipient_name": "Pak Bambang Sutrisno",
+            "recipient_phone": "081398765432",
+            "destination_address": "Jl. Kesambi No. 12, Pekalipan, Cirebon",
+            "cod_amount": 0.0,
+            "status": "PENDING"
+          },
+          {
+            "order_id": "ORD-2026-8803",
+            "tracking_number": "EXP-90023-CRB",
+            "recipient_name": "Sdr. Dimas Prasetyo",
+            "recipient_phone": "085712349988",
+            "destination_address": "Perum Citra Garden Blok B-3, Kedawung",
+            "cod_amount": 75000.0,
+            "status": "PENDING"
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/courier/deliveries/{order_id}/status?status=DELIVERED",
+      "summary": "Memperbarui status pengiriman paket kurir secara real-time",
+      "parameters": [
+        {
+          "name": "order_id",
+          "in": "path",
+          "required": true,
+          "type": "string",
+          "example": "ORD-2026-8801"
+        },
+        {
+          "name": "status",
+          "in": "query",
+          "required": true,
+          "type": "string",
+          "example": "DELIVERED"
+        }
+      ],
+      "response": {
+        "status": 200,
+        "contentType": "application/json",
+        "example": {
+          "success": true,
+          "message": "Status pengiriman berhasil diperbarui ke server pusat."
+        }
+      }
+    }
+  ]
+}
